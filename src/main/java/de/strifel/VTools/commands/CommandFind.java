@@ -26,16 +26,19 @@ public class CommandFind implements SimpleCommand {
         CommandSource commandSource = invocation.source();
         String[] strings = invocation.arguments();
 
-        if (strings.length == 1) {
-            Optional<Player> player = server.getPlayer(strings[0]);
-            if (player.isPresent() && player.get().getCurrentServer().isPresent()) {
-                commandSource.sendMessage(Component.text("Player " + strings[0] + " is on " + player.get().getCurrentServer().get().getServerInfo().getName() + "!").color(COLOR_YELLOW));
-            } else {
-                commandSource.sendMessage(Component.text("The player is not online!").color(COLOR_YELLOW));
-            }
-        } else {
+        if (strings.length != 1) {
             commandSource.sendMessage(Component.text("Usage: /find <username>").color(COLOR_RED));
+            return;
         }
+
+        Optional<Player> player = server.getPlayer(strings[0]);
+        if (player.isEmpty() || player.get().getCurrentServer().isEmpty()) {
+            commandSource.sendMessage(Component.text("The player is not online!").color(COLOR_YELLOW));
+            return;
+        }
+
+        commandSource.sendMessage(Component.text("Player " + strings[0] + " is on " +
+            player.get().getCurrentServer().get().getServerInfo().getName() + "!").color(COLOR_YELLOW));
     }
 
     @Override

@@ -26,18 +26,20 @@ public class CommandSendall implements SimpleCommand {
         CommandSource commandSource = invocation.source();
         String[] strings = invocation.arguments();
 
-        if (strings.length == 1) {
-            Optional<RegisteredServer> oServer = server.getServer(strings[0]);
-            if (oServer.isPresent()) {
-                for (Player player : server.getAllPlayers()) {
-                    player.createConnectionRequest(oServer.get()).connect();
-                    player.sendMessage(Component.text("You are being sent to " + strings[0]).color(COLOR_YELLOW));
-                }
-            } else {
-                commandSource.sendMessage(Component.text("The server does not exists!").color(COLOR_RED));
-            }
-        } else {
+        if (strings.length != 1) {
             commandSource.sendMessage(Component.text("Usage: /sendall <server>").color(COLOR_RED));
+            return;
+        }
+
+        Optional<RegisteredServer> oServer = server.getServer(strings[0]);
+        if (oServer.isEmpty()) {
+            commandSource.sendMessage(Component.text("That server does not exist!").color(COLOR_RED));
+            return;
+        }
+
+        for (Player player : server.getAllPlayers()) {
+            player.createConnectionRequest(oServer.get()).connect();
+            player.sendMessage(Component.text("You are being sent to " + strings[0]).color(COLOR_YELLOW));
         }
     }
 
@@ -45,7 +47,7 @@ public class CommandSendall implements SimpleCommand {
     public List<String> suggest(SimpleCommand.Invocation invocation) {
         String[] currentArgs = invocation.arguments();
 
-        List<String> arg = new ArrayList<String>();
+        List<String> arg = new ArrayList<>();
         if (currentArgs.length == 1) {
             for (RegisteredServer server : server.getAllServers()) {
                 arg.add(server.getServerInfo().getName());

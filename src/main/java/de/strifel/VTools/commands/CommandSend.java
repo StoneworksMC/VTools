@@ -25,27 +25,31 @@ public class CommandSend implements SimpleCommand {
         CommandSource commandSource = invocation.source();
         String[] strings = invocation.arguments();
 
-        if (strings.length == 2) {
-            Optional<Player> oPlayer = server.getPlayer(strings[0]);
-            Optional<RegisteredServer> oServer = server.getServer(strings[1]);
-            if (oPlayer.isPresent() && oServer.isPresent()) {
-                Player player = oPlayer.get();
-                RegisteredServer server = oServer.get();
-                player.createConnectionRequest(server).connect();
-                commandSource.sendMessage(Component.text("You send " + player.getUsername() + " to " + server.getServerInfo().getName()).color(COLOR_YELLOW));
-                commandSource.sendMessage(Component.text("You got send to " + server.getServerInfo().getName()).color(COLOR_YELLOW));
-            } else {
-                commandSource.sendMessage(Component.text("The server or user does not exists!").color(COLOR_RED));
-            }
-        } else {
+        if (strings.length != 2) {
             commandSource.sendMessage(Component.text("Usage: /send <username> <server>").color(COLOR_RED));
+            return;
         }
+
+        Optional<Player> oPlayer = server.getPlayer(strings[0]);
+        Optional<RegisteredServer> oServer = server.getServer(strings[1]);
+        if (oPlayer.isEmpty() || oServer.isEmpty()) {
+            commandSource.sendMessage(Component.text("The server or user does not exists!").color(COLOR_RED));
+            return;
+        }
+
+        Player player = oPlayer.get();
+        RegisteredServer server = oServer.get();
+        player.createConnectionRequest(server).connect();
+        commandSource.sendMessage(Component.text("You sent " + player.getUsername() + " to " + server.getServerInfo().getName()).color(COLOR_YELLOW));
+        commandSource.sendMessage(Component.text("You got sent to " + server.getServerInfo().getName()).color(COLOR_YELLOW));
+
+
     }
 
     public List<String> suggest(SimpleCommand.Invocation invocation) {
         String[] currentArgs = invocation.arguments();
 
-        List<String> arg = new ArrayList<String>();
+        List<String> arg = new ArrayList<>();
         if (currentArgs.length == 1) {
             for (Player player : server.getAllPlayers()) {
                 arg.add(player.getUsername());

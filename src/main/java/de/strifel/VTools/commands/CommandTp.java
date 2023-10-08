@@ -26,21 +26,23 @@ public class CommandTp implements SimpleCommand {
         CommandSource commandSource = commandInvocation.source();
         String[] strings = commandInvocation.arguments();
 
-        if (commandSource instanceof Player) {
-            if (strings.length == 1) {
-                Optional<Player> player = server.getPlayer(strings[0]);
-                if (player.isPresent()) {
-                    player.get().getCurrentServer().ifPresent(serverConnection -> ((Player) commandSource).createConnectionRequest(serverConnection.getServer()).fireAndForget());
-                    commandSource.sendMessage(Component.text("Connecting to the server of " + strings[0]).color(COLOR_YELLOW));
-                } else {
-                    commandSource.sendMessage(Component.text("Player does not exists.").color(COLOR_RED));
-                }
-            } else {
-                commandSource.sendMessage(Component.text("Usage: /tps <username>").color(COLOR_RED));
-            }
-        } else {
+        if (!(commandSource instanceof Player)) {
             commandSource.sendMessage(Component.text("Command is only for players.").color(COLOR_RED));
+            return;
         }
+        if (strings.length != 1) {
+            commandSource.sendMessage(Component.text("Usage: /tps <username>").color(COLOR_RED));
+            return;
+        }
+
+        Optional<Player> player = server.getPlayer(strings[0]);
+        if (player.isEmpty()) {
+            commandSource.sendMessage(Component.text("Player does not exist.").color(COLOR_RED));
+            return;
+        }
+        player.get().getCurrentServer().ifPresent(serverConnection -> ((Player) commandSource)
+            .createConnectionRequest(serverConnection.getServer()).fireAndForget());
+        commandSource.sendMessage(Component.text("Connecting to the server of " + strings[0]).color(COLOR_YELLOW));
     }
 
     @Override

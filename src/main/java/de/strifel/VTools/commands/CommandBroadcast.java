@@ -23,19 +23,20 @@ public class CommandBroadcast implements SimpleCommand {
         CommandSource commandSource = invocation.source();
         String[] strings = invocation.arguments();
 
-        if (strings.length > 0) {
-            String message = String.join(" ", strings).replace("&", "§");
-            for (Player player : server.getAllPlayers()) {
-                player.sendMessage(Component.text(message));
-            }
-        } else {
+        if (strings.length == 0) {
             commandSource.sendMessage(Component.text("Usage: /broadcast <message>").color(COLOR_RED));
+            return;
+        }
+
+        String message = String.join(" ", strings).replace("&", "§");
+        for (Player player : server.getAllPlayers()) {
+            player.sendMessage(Component.text(message));
         }
     }
 
     @Override
     public List<String> suggest(SimpleCommand.Invocation invocation) {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     @Override

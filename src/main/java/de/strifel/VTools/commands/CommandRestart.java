@@ -1,6 +1,5 @@
 package de.strifel.VTools.commands;
 
-import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -19,7 +18,6 @@ public class CommandRestart implements SimpleCommand {
 
     @Override
     public void execute(SimpleCommand.Invocation invocation) {
-        CommandSource commandSource = invocation.source();
         String[] strings = invocation.arguments();
 
         if (strings.length > 0) {
@@ -33,7 +31,7 @@ public class CommandRestart implements SimpleCommand {
 
     @Override
     public List<String> suggest(SimpleCommand.Invocation invocation) {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     @Override
