@@ -26,10 +26,10 @@ public class VTools {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         server.getCommandManager().register("send", new CommandSend(server));
         server.getCommandManager().register("sendall", new CommandSendall(server));
-        server.getCommandManager().register("broadcast", new CommandBroadcast(server), "bc", "alert");
+        server.getCommandManager().register("proxybroadcast", new CommandBroadcast(server), "proxybc");
         server.getCommandManager().register("find", new CommandFind(server), "search");
         server.getCommandManager().register("proxyrestart", new CommandRestart(server));
-        server.getCommandManager().register("tps", new CommandTp(server), "jump");
+        server.getCommandManager().register("proxytp", new CommandTp(server), "jump");
     }
 
 }

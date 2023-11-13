@@ -31,7 +31,7 @@ public class CommandTp implements SimpleCommand {
             return;
         }
         if (strings.length != 1) {
-            commandSource.sendMessage(Component.text("Usage: /tps <username>").color(COLOR_RED));
+            commandSource.sendMessage(Component.text("Usage: /proxytp <username>").color(COLOR_RED));
             return;
         }
 
@@ -58,6 +58,6 @@ public class CommandTp implements SimpleCommand {
 
     @Override
     public boolean hasPermission(Invocation commandInvocation) {
-        return commandInvocation.source().hasPermission("VTools.tps");
+        return commandInvocation.source().hasPermission("VTools.tp");
     }
 }

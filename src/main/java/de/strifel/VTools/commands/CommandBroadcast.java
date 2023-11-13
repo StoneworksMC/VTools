@@ -24,7 +24,7 @@ public class CommandBroadcast implements SimpleCommand {
         String[] strings = invocation.arguments();
 
         if (strings.length == 0) {
-            commandSource.sendMessage(Component.text("Usage: /broadcast <message>").color(COLOR_RED));
+            commandSource.sendMessage(Component.text("Usage: /proxybroadcast <message>").color(COLOR_RED));
             return;
         }
 

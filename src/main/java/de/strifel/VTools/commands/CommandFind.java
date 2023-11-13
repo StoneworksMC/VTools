@@ -51,7 +51,7 @@ public class CommandFind implements SimpleCommand {
                 arg.add(player.getUsername());
             }
         }
-        return arg;
+        return arg.stream().filter(s -> s.toLowerCase().startsWith(currentArgs[0].toLowerCase())).toList();
     }
 
     @Override
