@@ -21,6 +21,10 @@ public class CommandTp extends VeloCommand<VTools> {
         super(VTools.getMain(), "proxytp", "Teleport to another player's server");
     }
 
+    public CommandTp(boolean ignored) {
+        super("proxytp", "Teleport to another player's server");
+    }
+
     @Override
     public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
 

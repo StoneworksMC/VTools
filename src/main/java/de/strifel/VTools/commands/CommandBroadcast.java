@@ -18,6 +18,10 @@ public class CommandBroadcast extends VeloCommand<VTools> {
         super(VTools.getMain(), "proxybroadcast", "Broadcast a message to all players on the network");
     }
 
+    public CommandBroadcast(boolean ignored) {
+        super("proxybroadcast", "Broadcast a message to all players on the network");
+    }
+
     @Override
     public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
         String message = VTools.getMain().getConfigManager().getString(VToolsConfigRegistrar.BROADCAST_PREFIX) + " " +

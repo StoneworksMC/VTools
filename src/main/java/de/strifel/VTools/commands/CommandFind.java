@@ -12,14 +12,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import static de.strifel.VTools.VTools.COLOR_RED;
 import static de.strifel.VTools.VTools.COLOR_YELLOW;
 
 public class CommandFind extends VeloCommand<VTools> {
 
-
     public CommandFind() {
         super(VTools.getMain(), "find", "Find a player on the network");
+    }
+
+    public CommandFind(boolean ignored) {
+        super("find", "Find a player on the network");
     }
 
     @Override

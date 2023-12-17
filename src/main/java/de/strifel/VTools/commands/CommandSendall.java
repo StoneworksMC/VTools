@@ -23,6 +23,10 @@ public class CommandSendall extends VeloCommand<VTools> {
         super(VTools.getMain(), "sendall", "Send all players to a specified server");
     }
 
+    public CommandSendall(boolean ignored) {
+        super("sendall", "Send all players to a specified server");
+    }
+
     @Override
     public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
 

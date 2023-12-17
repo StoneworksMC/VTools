@@ -1,6 +1,8 @@
 package de.strifel.VTools;
 
 import com.crazyhjonk.velocity.VeloCrazyPlugin;
+import com.crazyhjonk.velocity.commands.VeloAboutCommand;
+import com.crazyhjonk.velocity.commands.VeloReloadCommand;
 import com.crazyhjonk.velocity.config.VeloConfigManager;
 import com.google.inject.Inject;
 import com.velocitypowered.api.plugin.Plugin;
@@ -15,7 +17,7 @@ import java.util.List;
 @Plugin(id = "vtools", name="VTools", version=VTools.VERSION, description="Some commands!")
 public class VTools extends VeloCrazyPlugin<VTools> {
 
-    public static final String VERSION = "1.4.2";
+    public static final String VERSION = "1.4.3";
 
     public static final TextColor COLOR_RED = TextColor.fromCSSHexString("FF5555");
     public static final TextColor COLOR_YELLOW = TextColor.fromCSSHexString("FFFF55");
@@ -44,6 +46,15 @@ public class VTools extends VeloCrazyPlugin<VTools> {
 
     @Override
     public void initializeCommands() {
+        new VToolsCommand().registerSubCommands(
+            new VeloReloadCommand<>(),
+            new VeloAboutCommand<>(),
+            new CommandSend(true),
+            new CommandSendall(true),
+            new CommandBroadcast(true),
+            new CommandFind(true),
+            new CommandTp(true)
+        );
         new CommandSend();
         new CommandSendall();
         new CommandBroadcast();

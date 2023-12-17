@@ -4,12 +4,10 @@ import com.crazyhjonk.core.commands.Argument;
 import com.crazyhjonk.core.commands.CommandPermission;
 import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import de.strifel.VTools.VTools;
 import net.kyori.adventure.text.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -17,6 +15,10 @@ public class CommandRestart extends VeloCommand<VTools> {
 
     public CommandRestart() {
         super(VTools.getMain(), "proxyrestart", "Restart the proxy server");
+    }
+
+    public CommandRestart(boolean ignored) {
+        super("proxyrestart", "Restart the proxy server");
     }
 
     @Override

@@ -24,6 +24,10 @@ public class CommandSend extends VeloCommand<VTools> {
         super(VTools.getMain(), "send", "Send a player to a specified server");
     }
 
+    public CommandSend(boolean ignored) {
+        super("send", "Send a player to a specified server");
+    }
+
     public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
         Optional<Player> oPlayer = getMain().getServer().getPlayer(args[0]);
         Optional<RegisteredServer> oServer = getMain().getServer().getServer(args[1]);
