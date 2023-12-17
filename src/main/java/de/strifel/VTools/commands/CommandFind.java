@@ -1,61 +1,55 @@
 package de.strifel.VTools.commands;
 
+import com.crazyhjonk.core.commands.Argument;
+import com.crazyhjonk.core.commands.CommandPermission;
+import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ProxyServer;
+import de.strifel.VTools.VTools;
 import net.kyori.adventure.text.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import static de.strifel.VTools.VTools.COLOR_RED;
 import static de.strifel.VTools.VTools.COLOR_YELLOW;
 
-public class CommandFind implements SimpleCommand {
-    private final ProxyServer server;
+public class CommandFind extends VeloCommand<VTools> {
 
-    public CommandFind(ProxyServer server) {
-        this.server = server;
+
+    public CommandFind() {
+        super(VTools.getMain(), "find", "Find a player on the network");
     }
 
-
     @Override
-    public void execute(SimpleCommand.Invocation invocation) {
-        CommandSource commandSource = invocation.source();
-        String[] strings = invocation.arguments();
+    public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
 
-        if (strings.length != 1) {
-            commandSource.sendMessage(Component.text("Usage: /find <username>").color(COLOR_RED));
-            return;
-        }
-
-        Optional<Player> player = server.getPlayer(strings[0]);
+        Optional<Player> player = getMain().getServer().getPlayer(args[0]);
         if (player.isEmpty() || player.get().getCurrentServer().isEmpty()) {
-            commandSource.sendMessage(Component.text("The player is not online!").color(COLOR_YELLOW));
-            return;
+            source.sendMessage(Component.text("The player is not online!").color(COLOR_YELLOW));
+            return CompletableFuture.completedFuture(true);
         }
 
-        commandSource.sendMessage(Component.text("Player " + strings[0] + " is on " +
+        source.sendMessage(Component.text("Player " + args[0] + " is on " +
             player.get().getCurrentServer().get().getServerInfo().getName() + "!").color(COLOR_YELLOW));
+        return CompletableFuture.completedFuture(true);
     }
 
     @Override
-    public List<String> suggest(SimpleCommand.Invocation invocation) {
-        String[] currentArgs = invocation.arguments();
-
-        List<String> arg = new ArrayList<>();
-        if (currentArgs.length == 1 && invocation.source().hasPermission("vtools.find.autocomplete")) {
-            for (Player player : server.getAllPlayers()) {
-                arg.add(player.getUsername());
-            }
-        }
-        return arg.stream().filter(s -> s.toLowerCase().startsWith(currentArgs[0].toLowerCase())).toList();
+    public CommandPermission getPermissionDefault() {
+        return CommandPermission.OP;
     }
 
     @Override
-    public boolean hasPermission(SimpleCommand.Invocation invocation) {
-        return invocation.source().hasPermission("vtools.find");
+    public List<Argument> defineArgs() {
+        return List.of(
+            new Argument("PLAYERS", true)
+        );
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return List.of("search");
     }
 }

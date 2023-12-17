@@ -1,41 +1,47 @@
 package de.strifel.VTools.commands;
 
+import com.crazyhjonk.core.commands.Argument;
+import com.crazyhjonk.core.commands.CommandPermission;
+import com.crazyhjonk.velocity.commands.VeloCommand;
+import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ProxyServer;
+import de.strifel.VTools.VTools;
 import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-public class CommandRestart implements SimpleCommand {
-    private final ProxyServer server;
+public class CommandRestart extends VeloCommand<VTools> {
 
-    public CommandRestart(ProxyServer server) {
-        this.server = server;
+    public CommandRestart() {
+        super(VTools.getMain(), "proxyrestart", "Restart the proxy server");
     }
 
-
     @Override
-    public void execute(SimpleCommand.Invocation invocation) {
-        String[] strings = invocation.arguments();
+    public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
 
-        if (strings.length > 0) {
-            String message = String.join(" ", strings).replace("&", "§");
-            for (Player player : server.getAllPlayers()) {
+        if (args.length > 0) {
+            String message = String.join(" ", args).replace("&", "§");
+            for (Player player : getMain().getServer().getAllPlayers()) {
                 player.disconnect(Component.text(message));
             }
         }
-        server.getCommandManager().executeAsync(server.getConsoleCommandSource(), "shutdown");
+        getMain().getServer().getCommandManager().executeAsync(
+            getMain().getServer().getConsoleCommandSource(), "shutdown");
+        return CompletableFuture.completedFuture(true);
     }
 
     @Override
-    public List<String> suggest(SimpleCommand.Invocation invocation) {
-        return new ArrayList<>();
+    public List<Argument> defineArgs() {
+        return List.of(
+            new Argument("message", false)
+        );
     }
 
     @Override
-    public boolean hasPermission(SimpleCommand.Invocation invocation) {
-        return invocation.source().hasPermission("vtools.shutdown");
+    public CommandPermission getPermissionDefault() {
+        return CommandPermission.OP;
     }
 }

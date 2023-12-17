@@ -1,69 +1,72 @@
 package de.strifel.VTools.commands;
 
+import com.crazyhjonk.core.commands.Argument;
+import com.crazyhjonk.core.commands.CommandPermission;
+import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+import de.strifel.VTools.VTools;
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import static de.strifel.VTools.VTools.COLOR_RED;
 import static de.strifel.VTools.VTools.COLOR_YELLOW;
 
-public class CommandSend implements SimpleCommand {
-    private final ProxyServer server;
+public class CommandSend extends VeloCommand<VTools> {
 
-    public CommandSend(ProxyServer server) {
-        this.server = server;
+    public CommandSend() {
+        super(VTools.getMain(), "send", "Send a player to a specified server");
     }
 
-    public void execute(SimpleCommand.Invocation invocation) {
-        CommandSource commandSource = invocation.source();
-        String[] strings = invocation.arguments();
-
-        if (strings.length != 2) {
-            commandSource.sendMessage(Component.text("Usage: /send <username> <server>").color(COLOR_RED));
-            return;
-        }
-
-        Optional<Player> oPlayer = server.getPlayer(strings[0]);
-        Optional<RegisteredServer> oServer = server.getServer(strings[1]);
+    public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
+        Optional<Player> oPlayer = getMain().getServer().getPlayer(args[0]);
+        Optional<RegisteredServer> oServer = getMain().getServer().getServer(args[1]);
         if (oPlayer.isEmpty() || oServer.isEmpty()) {
-            commandSource.sendMessage(Component.text("The server or user does not exists!").color(COLOR_RED));
-            return;
+            source.sendMessage(Component.text("The server or user does not exist!").color(COLOR_RED));
+            return CompletableFuture.completedFuture(true);
         }
 
         Player player = oPlayer.get();
         RegisteredServer server = oServer.get();
         player.createConnectionRequest(server).connect();
-        commandSource.sendMessage(Component.text("You sent " + player.getUsername() + " to " + server.getServerInfo().getName()).color(COLOR_YELLOW));
-        commandSource.sendMessage(Component.text("You got sent to " + server.getServerInfo().getName()).color(COLOR_YELLOW));
-
-
+        source.sendMessage(Component.text("You sent " + player.getUsername() + " to " +
+            server.getServerInfo().getName() + "!").color(COLOR_YELLOW));
+        player.sendMessage(Component.text("You got sent to " + server.getServerInfo().getName() + "!").color(COLOR_YELLOW));
+        return CompletableFuture.completedFuture(true);
     }
 
-    public List<String> suggest(SimpleCommand.Invocation invocation) {
-        String[] currentArgs = invocation.arguments();
+    @Override
+    public List<Argument> defineArgs() {
+        return List.of(
+            new Argument("player", true),
+            new Argument("server", true)
+        );
+    }
 
+    @Override
+    public List<String> tabComplete(CommandSource sender, String @NotNull [] args) {
         List<String> arg = new ArrayList<>();
-        if (currentArgs.length == 1) {
-            for (Player player : server.getAllPlayers()) {
+        if (args.length == 1) {
+            for (Player player : getMain().getServer().getAllPlayers()) {
                 arg.add(player.getUsername());
             }
             return arg;
-        } else if (currentArgs.length == 2) {
-            for (RegisteredServer server : server.getAllServers()) {
+        } else if (args.length == 2) {
+            for (RegisteredServer server : getMain().getServer().getAllServers()) {
                 arg.add(server.getServerInfo().getName());
             }
         }
         return arg;
     }
 
-    public boolean hasPermission(SimpleCommand.Invocation invocation) {
-        return invocation.source().hasPermission("vtools.send");
+    @Override
+    public CommandPermission getPermissionDefault() {
+        return CommandPermission.OP;
     }
 }

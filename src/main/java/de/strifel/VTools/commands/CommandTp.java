@@ -1,63 +1,59 @@
 package de.strifel.VTools.commands;
 
+import com.crazyhjonk.core.commands.Argument;
+import com.crazyhjonk.core.commands.CommandPermission;
+import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ProxyServer;
+import de.strifel.VTools.VTools;
 import net.kyori.adventure.text.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import static de.strifel.VTools.VTools.COLOR_RED;
 import static de.strifel.VTools.VTools.COLOR_YELLOW;
 
-public class CommandTp implements SimpleCommand {
+public class CommandTp extends VeloCommand<VTools> {
 
-    private final ProxyServer server;
-
-    public CommandTp(ProxyServer server) {
-        this.server = server;
+    public CommandTp() {
+        super(VTools.getMain(), "proxytp", "Teleport to another player's server");
     }
 
     @Override
-    public void execute(Invocation commandInvocation) {
-        CommandSource commandSource = commandInvocation.source();
-        String[] strings = commandInvocation.arguments();
+    public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
 
-        if (!(commandSource instanceof Player)) {
-            commandSource.sendMessage(Component.text("Command is only for players.").color(COLOR_RED));
-            return;
-        }
-        if (strings.length != 1) {
-            commandSource.sendMessage(Component.text("Usage: /proxytp <username>").color(COLOR_RED));
-            return;
+        if (!(source instanceof Player)) {
+            getMain().sendMessage(source, Component.text("Command is only for players.").color(COLOR_RED));
+            return CompletableFuture.completedFuture(false);
         }
 
-        Optional<Player> player = server.getPlayer(strings[0]);
+        Optional<Player> player = getMain().getPlayer(args[0]);
         if (player.isEmpty()) {
-            commandSource.sendMessage(Component.text("Player does not exist.").color(COLOR_RED));
-            return;
+            getMain().sendMessage(source, Component.text("Player does not exist.").color(COLOR_RED));
+            return CompletableFuture.completedFuture(false);
         }
-        player.get().getCurrentServer().ifPresent(serverConnection -> ((Player) commandSource)
+        player.get().getCurrentServer().ifPresent(serverConnection -> ((Player) source)
             .createConnectionRequest(serverConnection.getServer()).fireAndForget());
-        commandSource.sendMessage(Component.text("Connecting to the server of " + strings[0]).color(COLOR_YELLOW));
+        getMain().sendMessage(source, Component.text("Connecting to the server of " + args[0]).color(COLOR_YELLOW));
+        return CompletableFuture.completedFuture(true);
     }
 
     @Override
-    public List<String> suggest(Invocation commandInvocation) {
-        List<String> arg = new ArrayList<>();
-        if (commandInvocation.arguments().length == 1) {
-            for (Player player : server.getAllPlayers()) {
-                arg.add(player.getUsername());
-            }
-        }
-        return arg;
+    public CommandPermission getPermissionDefault() {
+        return CommandPermission.OP;
     }
 
     @Override
-    public boolean hasPermission(Invocation commandInvocation) {
-        return commandInvocation.source().hasPermission("VTools.tp");
+    public List<Argument> defineArgs() {
+        return List.of(
+            new Argument("PLAYERS", true)
+        );
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return List.of("jump");
     }
 }

@@ -35,6 +35,11 @@
             <version>3.2.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.crazyhjonk</groupId>
+            <artifactId>Velocity</artifactId>
+            <version>1.8.0</version>
+        </dependency>
     </dependencies>
 
 </project>
