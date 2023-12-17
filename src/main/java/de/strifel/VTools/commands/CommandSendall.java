@@ -34,7 +34,7 @@ public class CommandSendall extends VeloCommand<VTools> {
 
         for (Player player : getMain().getServer().getAllPlayers()) {
             player.createConnectionRequest(oServer.get()).connect();
-            getMain().sendMessage(source, Component.text("You are being sent to " + args[0]).color(COLOR_YELLOW));
+            getMain().sendMessage(player, Component.text("You are being sent to " + args[0]).color(COLOR_YELLOW));
         }
         return CompletableFuture.completedFuture(true);
     }

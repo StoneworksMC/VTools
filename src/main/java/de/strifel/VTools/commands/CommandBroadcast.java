@@ -4,12 +4,11 @@ import com.crazyhjonk.core.commands.Argument;
 import com.crazyhjonk.core.commands.CommandPermission;
 import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import de.strifel.VTools.VTools;
-import net.kyori.adventure.text.Component;
+import de.strifel.VTools.config.VToolsConfigRegistrar;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -21,9 +20,13 @@ public class CommandBroadcast extends VeloCommand<VTools> {
 
     @Override
     public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
-        String message = String.join(" ", args).replace("&", "§");
+        String message = VTools.getMain().getConfigManager().getString(VToolsConfigRegistrar.BROADCAST_PREFIX) + " " +
+            String.join(" ", args).replace("&", "§");
         for (Player player : getMain().getServer().getAllPlayers()) {
-            player.sendMessage(Component.text(message));
+            player.sendMessage(LegacyComponentSerializer.legacySection().deserialize(message));
+        }
+        if (!(source instanceof Player)) {
+            source.sendMessage(LegacyComponentSerializer.legacySection().deserialize(message));
         }
         return CompletableFuture.completedFuture(true);
     }

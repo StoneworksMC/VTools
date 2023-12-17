@@ -27,11 +27,11 @@ public class CommandFind extends VeloCommand<VTools> {
 
         Optional<Player> player = getMain().getServer().getPlayer(args[0]);
         if (player.isEmpty() || player.get().getCurrentServer().isEmpty()) {
-            source.sendMessage(Component.text("The player is not online!").color(COLOR_YELLOW));
+            getMain().sendMessage(source, Component.text("The player is not online!").color(COLOR_YELLOW));
             return CompletableFuture.completedFuture(true);
         }
 
-        source.sendMessage(Component.text("Player " + args[0] + " is on " +
+        getMain().sendMessage(source, Component.text("Player " + args[0] + " is on " +
             player.get().getCurrentServer().get().getServerInfo().getName() + "!").color(COLOR_YELLOW));
         return CompletableFuture.completedFuture(true);
     }

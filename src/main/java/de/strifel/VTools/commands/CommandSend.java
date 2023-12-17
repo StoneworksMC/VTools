@@ -28,16 +28,16 @@ public class CommandSend extends VeloCommand<VTools> {
         Optional<Player> oPlayer = getMain().getServer().getPlayer(args[0]);
         Optional<RegisteredServer> oServer = getMain().getServer().getServer(args[1]);
         if (oPlayer.isEmpty() || oServer.isEmpty()) {
-            source.sendMessage(Component.text("The server or user does not exist!").color(COLOR_RED));
+            getMain().sendMessage(source, Component.text("The server or user does not exist!").color(COLOR_RED));
             return CompletableFuture.completedFuture(true);
         }
 
         Player player = oPlayer.get();
         RegisteredServer server = oServer.get();
         player.createConnectionRequest(server).connect();
-        source.sendMessage(Component.text("You sent " + player.getUsername() + " to " +
+        getMain().sendMessage(source, Component.text("You sent " + player.getUsername() + " to " +
             server.getServerInfo().getName() + "!").color(COLOR_YELLOW));
-        player.sendMessage(Component.text("You got sent to " + server.getServerInfo().getName() + "!").color(COLOR_YELLOW));
+        getMain().sendMessage(player, Component.text("You got sent to " + server.getServerInfo().getName() + "!").color(COLOR_YELLOW));
         return CompletableFuture.completedFuture(true);
     }
 
