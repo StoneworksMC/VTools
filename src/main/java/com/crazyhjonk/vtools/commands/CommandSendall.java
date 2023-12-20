@@ -1,4 +1,4 @@
-package de.strifel.VTools.commands;
+package com.crazyhjonk.vtools.commands;
 
 import com.crazyhjonk.core.commands.Argument;
 import com.crazyhjonk.core.commands.CommandPermission;
@@ -6,7 +6,7 @@ import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import de.strifel.VTools.VTools;
+import com.crazyhjonk.vtools.VTools;
 import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
@@ -14,17 +14,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import static de.strifel.VTools.VTools.COLOR_RED;
-import static de.strifel.VTools.VTools.COLOR_YELLOW;
+import static com.crazyhjonk.vtools.VTools.COLOR_RED;
+import static com.crazyhjonk.vtools.VTools.COLOR_YELLOW;
 
 public class CommandSendall extends VeloCommand<VTools> {
 
     public CommandSendall() {
-        super(VTools.getMain(), "sendall", "Send all players to a specified server");
+        super("sendall", "Send all players to a specified server");
     }
 
     public CommandSendall(boolean ignored) {
-        super("sendall", "Send all players to a specified server");
+        super(VTools.getMain(), "sendall", "Send all players to a specified server");
     }
 
     @Override

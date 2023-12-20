@@ -1,27 +1,27 @@
-package de.strifel.VTools.commands;
+package com.crazyhjonk.vtools.commands;
 
 import com.crazyhjonk.core.commands.Argument;
 import com.crazyhjonk.core.commands.CommandPermission;
 import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
-import de.strifel.VTools.VTools;
+import com.crazyhjonk.vtools.VTools;
 import net.kyori.adventure.text.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import static de.strifel.VTools.VTools.COLOR_YELLOW;
+import static com.crazyhjonk.vtools.VTools.COLOR_YELLOW;
 
 public class CommandFind extends VeloCommand<VTools> {
 
     public CommandFind() {
-        super(VTools.getMain(), "find", "Find a player on the network");
+        super("find", "Find a player on the network");
     }
 
     public CommandFind(boolean ignored) {
-        super("find", "Find a player on the network");
+        super(VTools.getMain(), "find", "Find a player on the network");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package de.strifel.VTools.commands;
+package com.crazyhjonk.vtools.commands;
 
 import com.crazyhjonk.core.commands.Argument;
 import com.crazyhjonk.core.commands.CommandPermission;
@@ -6,7 +6,7 @@ import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import de.strifel.VTools.VTools;
+import com.crazyhjonk.vtools.VTools;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,17 +15,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import static de.strifel.VTools.VTools.COLOR_RED;
-import static de.strifel.VTools.VTools.COLOR_YELLOW;
+import static com.crazyhjonk.vtools.VTools.COLOR_RED;
+import static com.crazyhjonk.vtools.VTools.COLOR_YELLOW;
 
 public class CommandSend extends VeloCommand<VTools> {
 
     public CommandSend() {
-        super(VTools.getMain(), "send", "Send a player to a specified server");
+        super("send", "Send a player to a specified server");
     }
 
     public CommandSend(boolean ignored) {
-        super("send", "Send a player to a specified server");
+        super(VTools.getMain(), "send", "Send a player to a specified server");
     }
 
     public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {

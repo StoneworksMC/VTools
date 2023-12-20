@@ -1,28 +1,28 @@
-package de.strifel.VTools.commands;
+package com.crazyhjonk.vtools.commands;
 
 import com.crazyhjonk.core.commands.Argument;
 import com.crazyhjonk.core.commands.CommandPermission;
 import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
-import de.strifel.VTools.VTools;
+import com.crazyhjonk.vtools.VTools;
 import net.kyori.adventure.text.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import static de.strifel.VTools.VTools.COLOR_RED;
-import static de.strifel.VTools.VTools.COLOR_YELLOW;
+import static com.crazyhjonk.vtools.VTools.COLOR_RED;
+import static com.crazyhjonk.vtools.VTools.COLOR_YELLOW;
 
 public class CommandTp extends VeloCommand<VTools> {
 
     public CommandTp() {
-        super(VTools.getMain(), "proxytp", "Teleport to another player's server");
+        super("proxytp", "Teleport to another player's server");
     }
 
     public CommandTp(boolean ignored) {
-        super("proxytp", "Teleport to another player's server");
+        super(VTools.getMain(), "proxytp", "Teleport to another player's server");
     }
 
     @Override

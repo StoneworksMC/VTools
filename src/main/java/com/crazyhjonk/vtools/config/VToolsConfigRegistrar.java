@@ -1,4 +1,4 @@
-package de.strifel.VTools.config;
+package com.crazyhjonk.vtools.config;
 
 import com.crazyhjonk.core.config.ConfigRegistrar;
 import com.crazyhjonk.core.config.ConfigType;
