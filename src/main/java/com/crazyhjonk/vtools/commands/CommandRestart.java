@@ -1,6 +1,7 @@
 package com.crazyhjonk.vtools.commands;
 
 import com.crazyhjonk.core.commands.Argument;
+import com.crazyhjonk.core.commands.CommandData;
 import com.crazyhjonk.core.commands.CommandPermission;
 import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
@@ -22,7 +23,7 @@ public class CommandRestart extends VeloCommand<VTools> {
     }
 
     @Override
-    public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
+    public CompletableFuture<Boolean> execute(CommandSource source, String[] args, CommandData data) {
 
         if (args.length > 0) {
             String message = String.join(" ", args).replace("&", "§");

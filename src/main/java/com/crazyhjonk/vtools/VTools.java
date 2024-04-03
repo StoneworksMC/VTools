@@ -20,7 +20,7 @@ import java.util.List;
 @Plugin(id = "vtools", name="VTools", version=VTools.VERSION, description="Some commands!", authors = "CrazyHjonk")
 public class VTools extends VeloCrazyPlugin {
 
-    public static final String VERSION = "1.4.3";
+    public static final String VERSION = "1.4.4";
 
     public static final TextColor COLOR_RED = TextColor.fromCSSHexString("FF5555");
     public static final TextColor COLOR_YELLOW = TextColor.fromCSSHexString("FFFF55");

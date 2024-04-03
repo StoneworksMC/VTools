@@ -1,6 +1,7 @@
 package com.crazyhjonk.vtools.commands;
 
 import com.crazyhjonk.core.commands.Argument;
+import com.crazyhjonk.core.commands.CommandData;
 import com.crazyhjonk.core.commands.CommandPermission;
 import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
@@ -28,7 +29,7 @@ public class CommandSend extends VeloCommand<VTools> {
         super(VTools.getMain(), "send", "Send a player to a specified server");
     }
 
-    public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
+    public CompletableFuture<Boolean> execute(CommandSource source, String[] args, CommandData data) {
         Optional<Player> oPlayer = getMain().getServer().getPlayer(args[0]);
         Optional<RegisteredServer> oServer = getMain().getServer().getServer(args[1]);
         if (oPlayer.isEmpty() || oServer.isEmpty()) {
@@ -54,7 +55,7 @@ public class CommandSend extends VeloCommand<VTools> {
     }
 
     @Override
-    public List<String> tabComplete(CommandSource sender, String @NotNull [] args) {
+    public List<String> tabComplete(CommandSource sender, String @NotNull [] args, CommandData data) {
         List<String> arg = new ArrayList<>();
         if (args.length == 1) {
             for (Player player : getMain().getServer().getAllPlayers()) {

@@ -1,6 +1,7 @@
 package com.crazyhjonk.vtools.commands;
 
 import com.crazyhjonk.core.commands.Argument;
+import com.crazyhjonk.core.commands.CommandData;
 import com.crazyhjonk.core.commands.CommandPermission;
 import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
@@ -28,7 +29,7 @@ public class CommandSendall extends VeloCommand<VTools> {
     }
 
     @Override
-    public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
+    public CompletableFuture<Boolean> execute(CommandSource source, String[] args, CommandData data) {
 
         Optional<RegisteredServer> oServer = getMain().getServer().getServer(args[0]);
         if (oServer.isEmpty()) {
@@ -51,7 +52,7 @@ public class CommandSendall extends VeloCommand<VTools> {
     }
 
     @Override
-    public List<String> tabComplete(CommandSource source, String[] args) {
+    public List<String> tabComplete(CommandSource source, String[] args, CommandData data) {
         List<String> arg = new ArrayList<>();
         if (args.length == 1) {
             for (RegisteredServer server : getMain().getServer().getAllServers()) {

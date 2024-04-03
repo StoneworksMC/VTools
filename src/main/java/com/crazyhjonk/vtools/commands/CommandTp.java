@@ -1,6 +1,7 @@
 package com.crazyhjonk.vtools.commands;
 
 import com.crazyhjonk.core.commands.Argument;
+import com.crazyhjonk.core.commands.CommandData;
 import com.crazyhjonk.core.commands.CommandPermission;
 import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
@@ -26,7 +27,7 @@ public class CommandTp extends VeloCommand<VTools> {
     }
 
     @Override
-    public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
+    public CompletableFuture<Boolean> execute(CommandSource source, String[] args, CommandData data) {
 
         if (!(source instanceof Player)) {
             getMain().sendMessage(source, Component.text("Command is only for players.").color(COLOR_RED));

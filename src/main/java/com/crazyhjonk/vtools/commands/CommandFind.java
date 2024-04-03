@@ -1,6 +1,7 @@
 package com.crazyhjonk.vtools.commands;
 
 import com.crazyhjonk.core.commands.Argument;
+import com.crazyhjonk.core.commands.CommandData;
 import com.crazyhjonk.core.commands.CommandPermission;
 import com.crazyhjonk.velocity.commands.VeloCommand;
 import com.velocitypowered.api.command.CommandSource;
@@ -25,7 +26,7 @@ public class CommandFind extends VeloCommand<VTools> {
     }
 
     @Override
-    public CompletableFuture<Boolean> execute(CommandSource source, String[] args) {
+    public CompletableFuture<Boolean> execute(CommandSource source, String[] args, CommandData data) {
 
         Optional<Player> player = getMain().getServer().getPlayer(args[0]);
         if (player.isEmpty() || player.get().getCurrentServer().isEmpty()) {
